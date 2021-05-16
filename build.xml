@@ -1,0 +1,69 @@
+<project name="Sample usage of Salesforce Ant tasks" basedir="." default="deployCodeCheckOnly" xmlns:sf="antlib:com.salesforce">
+
+    <property file="build.properties"/>
+    <property environment="env"/> 
+	
+	
+	<!--For Sandbox -->	
+	
+	<target name="retrieveCode">
+      <sf:retrieve username="${DEV.username}" password="${DEV.password}" serverurl="${DEV.serverurl}" retrieveTarget="codepkg1" unpackaged="codepkg1/package.xml"/>
+    </target> 
+	<taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
+        <classpath>
+            <pathelement location="../ant-salesforce.jar" />        	
+        </classpath>
+    </taskdef>
+	<target name="deployCodeCheckOnly" description="Does not actually save changes to server">
+      <sf:deploy username="${DEVP.username}" password="${DEVP.password}" serverurl="${DEVP.serverurl}" deployRoot="codepkg1" checkOnly="true" runAllTests="false"/>
+    </target>
+	
+	<target name="deployCode" description="Deploy the changes">
+      <sf:deploy username="${DEVP.username}" password="${DEVP.password}" serverurl="${DEVP.serverurl}" deployRoot="codepkg1" checkOnly="false" runAllTests="false"/>
+    </target>
+	
+	<target name="deleteCode" description="Delete the changes">
+      <sf:deploy username="${DEVP.username}" password="${DEVP.password}" serverurl="${DEVP.serverurl}" deployRoot="codepkg1" checkOnly="false" runAllTests="false"/>
+    </target>
+	
+	<target name="deleteCodeCheckOnly" description="Validate Deletion of the components">
+      <sf:deploy username="${DEVP.username}" password="${DEVP.password}" serverurl="${DEVP.serverurl}" deployRoot="codepkg1" checkOnly="true" runAllTests="false" >
+		</sf:deploy>
+	</target>
+	
+	<!--For VVAL -->	
+	<target name="retrieveCodeVval">
+      <sf:retrieve username="${VVAL.username}" password="${VVAL.password}" serverurl="${VVAL.serverurl}" retrieveTarget="codepkg1" unpackaged="codepkg1/package.xml"/>
+    </target>
+	
+	<target name="deployCodeCheckOnlyVval" description="Does not actually save changes to server">
+      <sf:deploy username="${VVAL.username}" password="${VVAL.password}" serverurl="${VVAL.serverurl}" deployRoot="codepkg1" checkOnly="true" runAllTests="false"/>
+    </target>
+	
+	<target name="deployCodeVval" description="Deploy the changes">
+      <sf:deploy username="${VVAL.username}" password="${VVAL.password}" serverurl="${VVAL.serverurl}" deployRoot="codepkg1" checkOnly="false" runAllTests="false"/>
+    </target>
+	
+	<target name="deleteCodeVval" description="Delete the changes">
+      <sf:deploy username="${VVAL.username}" password="${VVAL.password}" serverurl="${VVAL.serverurl}" deployRoot="codepkg1" checkOnly="true" runAllTests="false"/>
+    </target>
+	
+	<!--For Production -->	
+		
+	<target name="deployCodeCheckOnlyProd" description="Does not actually save changes to server">
+      <sf:deploy username="${PROD.username}" password="${PROD.password}" serverurl="${PROD.serverurl}" deployRoot="codepkg1" checkOnly="true" runAllTests="false"/>
+    </target>
+	
+	<target name="deployCodeProd" description="Deploy the changes">
+      <sf:deploy username="${PROD.username}" password="${PROD.password}" serverurl="${PROD.serverurl}" deployRoot="codepkg1" checkOnly="false" runAllTests="false"/>
+    </target>
+	
+	<target name="deleteCodeCheckOnlyProd" description=" Validate of Delete the changes">
+      <sf:deploy username="${PROD.username}" password="${PROD.password}" serverurl="${PROD.serverurl}" deployRoot="codepkg1" checkOnly="true" runAllTests="false"/>
+    </target>
+	
+	<target name="deleteCodeProd" description="Delete the changes">
+      <sf:deploy username="${PROD.username}" password="${PROD.password}" serverurl="${PROD.serverurl}" deployRoot="codepkg1" checkOnly="false" runAllTests="false"/>
+    </target>
+
+</project>
